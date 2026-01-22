@@ -1,0 +1,226 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
+    background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.calculator-container {
+    width: 100%;
+    max-width: 400px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    border: 8px solid #e74c3c;
+    position: relative;
+    overflow: hidden;
+}
+
+.mario-background {
+    position: relative;
+    z-index: 2;
+}
+
+.calculator-header {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: linear-gradient(45deg, #e74c3c, #f39c12);
+    border-radius: 15px;
+    color: white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.calculator-header h1 {
+    font-size: 24px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    margin-top: 10px;
+}
+
+.mario-icon {
+    width: 60px;
+    height: 60px;
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.calculator-display {
+    margin-bottom: 20px;
+}
+
+#display {
+    width: 100%;
+    height: 80px;
+    font-size: 32px;
+    font-weight: bold;
+    text-align: right;
+    padding: 0 20px;
+    border: 4px solid #2ecc71;
+    border-radius: 15px;
+    background: linear-gradient(45deg, #ecf0f1, #bdc3c7);
+    color: #2c3e50;
+    box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.1);
+    outline: none;
+}
+
+.calculator-buttons {
+    display: grid;
+    gap: 10px;
+}
+
+.button-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.btn {
+    height: 70px;
+    border: none;
+    border-radius: 15px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn:active {
+    transform: translateY(3px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+.btn-number {
+    background: linear-gradient(45deg, #3498db, #2980b9);
+    color: white;
+    border: 2px solid #2980b9;
+}
+
+.btn-number:hover {
+    background: linear-gradient(45deg, #2980b9, #1f618d);
+}
+
+.btn-operator {
+    background: linear-gradient(45deg, #f39c12, #e67e22);
+    color: white;
+    border: 2px solid #e67e22;
+}
+
+.btn-operator:hover {
+    background: linear-gradient(45deg, #e67e22, #d35400);
+}
+
+.btn-clear {
+    background: linear-gradient(45deg, #e74c3c, #c0392b);
+    color: white;
+    border: 2px solid #c0392b;
+}
+
+.btn-clear:hover {
+    background: linear-gradient(45deg, #c0392b, #a93226);
+}
+
+.btn-equals {
+    background: linear-gradient(45deg, #2ecc71, #27ae60);
+    color: white;
+    border: 2px solid #27ae60;
+    grid-column: span 2;
+}
+
+.btn-equals:hover {
+    background: linear-gradient(45deg, #27ae60, #229954);
+}
+
+/* 马里奥元素装饰 */
+.calculator-container::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, #e74c3c 40%, transparent 41%),
+                radial-gradient(circle, #e74c3c 40%, transparent 41%);
+    background-size: 30px 30px;
+    background-position: 0 0, 15px 15px;
+    opacity: 0.1;
+    transform: rotate(45deg);
+}
+
+.calculator-container::after {
+    content: '';
+    position: absolute;
+    bottom: -30px;
+    left: -30px;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(45deg, #f1c40f, #f39c12);
+    border-radius: 50%;
+    opacity: 0.2;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* 响应式设计 */
+@media (max-width: 480px) {
+    .calculator-container {
+        margin: 10px;
+        padding: 15px;
+        border-width: 6px;
+    }
+    
+    .btn {
+        height: 60px;
+        font-size: 18px;
+    }
+    
+    #display {
+        height: 70px;
+        font-size: 28px;
+    }
+    
+    .calculator-header h1 {
+        font-size: 20px;
+    }
+}
+
+/* 按钮点击动画 */
+@keyframes buttonPop {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.95); }
+    100% { transform: scale(1); }
+}
+
+.btn:active {
+    animation: buttonPop 0.1s ease;
+}
