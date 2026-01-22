@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>马里奥计算器</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="calculator-container">
+        <div class="mario-background">
+            <div class="calculator-header">
+                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3QgeD0iMTAiIHk9IjIwIiB3aWR0aD0iODAiIGhlaWdodD0iNjAiIGZpbGw9IiNlZTQ0MzMiLz4KPGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMTAiIGZpbGw9IiMwMDAiLz4KPGNpcmNsZSBjeD0iNzAiIGN5PSIzMCIgcj0iMTAiIGZpbGw9IiMwMDAiLz4KPHJlY3QgeD0iMjUiIHk9IjU1IiB3aWR0aD0iNTAiIGhlaWdodD0iNSIgZmlsbD0iIzAwMCIvPgo8L3N2Zz4=" alt="马里奥" class="mario-icon">
+                <h1>马里奥计算器</h1>
+            </div>
+            
+            <div class="calculator-display">
+                <input type="text" id="display" readonly placeholder="0">
+            </div>
+            
+            <div class="calculator-buttons">
+                <div class="button-row">
+                    <button class="btn btn-clear" onclick="clearDisplay()">C</button>
+                    <button class="btn btn-clear" onclick="deleteLast()">←</button>
+                    <button class="btn btn-operator" onclick="appendToDisplay('%')">%</button>
+                    <button class="btn btn-operator" onclick="appendToDisplay('/')">/</button>
+                </div>
+                
+                <div class="button-row">
+                    <button class="btn btn-number" onclick="appendToDisplay('7')">7</button>
+                    <button class="btn btn-number" onclick="appendToDisplay('8')">8</button>
+                    <button class="btn btn-number" onclick="appendToDisplay('9')">9</button>
+                    <button class="btn btn-operator" onclick="appendToDisplay('*')">×</button>
+                </div>
+                
+                <div class="button-row">
+                    <button class="btn btn-number" onclick="appendToDisplay('4')">4</button>
+                    <button class="btn btn-number" onclick="appendToDisplay('5')">5</button>
+                    <button class="btn btn-number" onclick="appendToDisplay('6')">6</button>
+                    <button class="btn btn-operator" onclick="appendToDisplay('-')">-</button>
+                </div>
+                
+                <div class="button-row">
+                    <button class="btn btn-number" onclick="appendToDisplay('1')">1</button>
+                    <button class="btn btn-number" onclick="appendToDisplay('2')">2</button>
+                    <button class="btn btn-number" onclick="appendToDisplay('3')">3</button>
+                    <button class="btn btn-operator" onclick="appendToDisplay('+')">+</button>
+                </div>
+                
+                <div class="button-row">
+                    <button class="btn btn-number" onclick="appendToDisplay('0')">0</button>
+                    <button class="btn btn-number" onclick="appendToDisplay('.')">.</button>
+                    <button class="btn btn-equals" onclick="calculate()">=</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 音效文件 -->
+    <audio id="buttonSound" src="data:audio/mpeg;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA//tQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAADwADw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw//////////////////////////////////////////8AAAAATGF2YzU4LjEzAAAAAAAAAAAAAAAAJAAAAAAAAAAAA8DSN9r2AAAAAAAAAAAAAAAAAAAAAP/7UMQAAAAjYSLOQAACFmBic4wIAAAL/xAQGA/gYCgC/+JAAgCAYC/+IFhcX+DgwEAP/+DwcB/+HwfA//8QA8KBwMAfAYB/+QT//+Jwf4TgIEDAoB/////5AB+MQMRE4Pg4CIZAIAAAA/wQA84CDwUE//////9QU5JS+/8SzV0i0LS1gKI7C4NGqiqM1XWVaoHSWyjVhI1VN/bRbNlNGGx6sqzRnqUw5pLrKtTNQ5VaF6ps3bS4xChlVBMQU1FMy45OS41qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq" preload="auto"></audio>
+    <audio id="equalsSound" src="data:audio/mpeg;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA//tQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAADwADw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw//////////////////////////////////////////8AAAAATGF2YzU4LjEzAAAAAAAAAAAAAAAAJAAAAAAAAAAAA8DSN9r2AAAAAAAAAAAAAAAAAAAAAP/7UMQAAAAjYSLOQAACFmBic4wIAAAL/xAQGA/gYCgC/+JAAgCAYC/+JDBcX+DgwEAP/+DwcB/+HwfA//8QQ+KR0MAfAYB/+QT//+Jwf4TgIFDAoB/////5AB+MQMRE4Pg4CIZAIAAAA/wQA84CDwUE//////9QU5JS+/8SzV0i0LS1gKI7C4NGqiqM1XWVaoHSWyjVhI1VN/bRbNlNGGx6sqzRnqUw5pLrKtTNQ5VaF6ps3bS4xChlVBMQU1FMy45OS41qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq" preload="auto"></audio>
+
+    <script src="enhanced-sounds.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
